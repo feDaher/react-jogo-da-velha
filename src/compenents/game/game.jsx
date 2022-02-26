@@ -1,7 +1,7 @@
-import {useState, useEffect} from 'react'
-import styles from "./Game.module.css"
-import GameOption from "../gameOption/gameOption"
-import Icon from "../icon/icon"
+import { useState, useEffect } from 'react'
+import styles from './Game.module.css'
+import GameOption from '../gameOption/gameOption'
+import GameInfo from '../gameInfo/gameInfo'
 
 const winnerTable = [
   [0, 1, 2],
@@ -14,7 +14,7 @@ const winnerTable = [
   [2, 4, 6],
 ]
 
-function Game (){
+function Game() {
   const [gameState, setGameState] = useState(Array(9).fill(0))
   const [currentPlayer, setCurrentPlayer] = useState(-1)
   const [winner, setWinner] = useState(0)
@@ -31,38 +31,40 @@ function Game (){
     winnerTable.forEach((line) => {
       const values = line.map((pos) => gameState[pos])
       const sum = values.reduce((sum, value) => sum + value)
-      if (sum === 3 || sum === -3) setWinner(sum/3)
+      if (sum === 3 || sum === -3) setWinner(sum / 3)
     })
   }
 
-  useEffect (()=>{   //sao dois parametros: primeiro parametro é um função, o segundo é um array
+  const handleReset = () => {
+    setGameState(Array(9).fill(0))
+    setWinner(0)
+  }
+  useEffect(() => {   //sao dois parametros: primeiro parametro é um função, o segundo é um array
     setCurrentPlayer(currentPlayer * -1)
     verifyGame()
-  }, [gameState]) 
+  }, [gameState])
 
-  return(
-    <div className={styles.gameContent}>
-      <div className={styles.game}>
-      {
-        gameState.map((value, pos) => 
-          <GameOption 
-            key={`game-option-pos-${pos}`}
-            status={value}
-            onClick= {() => handleClick(pos)}
-          />
-        )
-      }
-    </div>
-      <div className={styles.gameInfo}>
-        <h4>Próximo a jogar:</h4>
-        {
-          currentPlayer === 1 && <Icon iconName="circle" />
-        }
-        {
-          currentPlayer === -1 && <Icon iconName="x" />
-        }
+  return (
+    <>
+      <div className={styles.gameContent}>
+        <div className={styles.game}>
+          {
+            gameState.map((value, pos) =>
+              <GameOption
+                key={`game-option-pos-${pos}`}
+                status={value}
+                onClick={() => handleClick(pos)}
+              />
+            )
+          }
+        </div>
+        <GameInfo
+          currentPlayer={currentPlayer}
+          winner={winner}
+          onReset={handleReset}
+        />
       </div>
-    </div>
+    </>
   )
 }
 
