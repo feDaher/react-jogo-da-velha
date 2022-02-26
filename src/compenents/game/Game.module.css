@@ -8,8 +8,11 @@
   display: flex;
   gap: 30px;
   align-items: center;
-
 }
 
-
+@media screen and (max-width: 430px){
+  .gameContent{
+    flex-direction: column;
+  }
+}
 
