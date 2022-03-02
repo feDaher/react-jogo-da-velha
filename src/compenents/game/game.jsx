@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import styles from './Game.module.css'
 import GameOption from '../gameOption/gameOption'
 import GameInfo from '../gameInfo/gameInfo'
+import Score from '../score/score'
 
 const winnerTable = [
   [0, 1, 2],
@@ -90,6 +91,7 @@ function Game() {
           isDraw={draw}
         />
       </div>
+      <Score />
     </>
   )
 }
